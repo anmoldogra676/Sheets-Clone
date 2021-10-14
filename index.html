@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Excel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <title>Sheets-Clone</title>
 </head>
 
 <body>
@@ -40,24 +44,41 @@
             <option value="18">18</option>
             <option value="20">20</option>
         </select>
-        <span class="material-icons">
+        <span class="material-icons bold ">
             format_bold
         </span>
-        <span class="material-icons">
+        <span class="material-icons italic ">
             format_italic
         </span>
-        <span class="material-icons">
+        <span class="material-icons underline">
             format_underlined
         </span>
-        <span class="material-icons">
+        <span class="material-icons align">
             format_align_left
         </span>
-        <span class="material-icons">
+        <span class="material-icons align">
             format_align_center
         </span>
-        <span class="material-icons">
+        <span class="material-icons align">
             format_align_right
         </span>
+      
+        <div class="color-prop">
+            <span class="material-icons">
+                format_color_text
+                </span>
+                <input type="color" class="fontcolor-cont" >
+        </div>
+        <div class="color-prop">
+            <span class="material-icons">
+                format_color_fill
+                </span>
+                <input type="color" class="BGcolor-cont" >
+        </div>
+        
+            
+
+
     </div>
     <div class="formula-actions-cont">
         <input type="text" readonly class="address-bar">
@@ -85,7 +106,8 @@
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="./grid.js"></script>
+    <script src="./cellprop.js"></script>
 </body>
 
 </html>

@@ -26,6 +26,11 @@ for (let i = 0;i < rows;i++) {
     for (let j = 0;j < cols;j++) {
         let cell = document.createElement("div");
         cell.setAttribute("class", "cell");
+        cell.setAttribute("spellcheck", "false");
+        //  just for unique identification of cell and for storage purpose
+        cell.setAttribute('rid', i);
+        cell.setAttribute('cid', j);
+        
         cell.setAttribute("contenteditable", "true");
         rowCont.appendChild(cell);
         addListenerForAddressBarDisplay(cell, i, j);
@@ -40,3 +45,6 @@ function addListenerForAddressBarDisplay(cell, i, j) {
         addressBar.value = `${colID}${rowID}`;
     })
 }
+
+let firstCell = document.querySelector(".cell")
+firstCell.click();
