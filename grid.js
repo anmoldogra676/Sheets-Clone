@@ -1,3 +1,17 @@
+/*
+Our Grid will be of 100 Rows and 26 columns 
+Divide Grid in 3 parts --> Row part , column Part and cell part
+on rows --> 1 to 100 
+on columns --> A to Z
+in cells --> they are 2d matrix of 100 * 26 
+so to get access of each cell add some attributes rid and cid 
+
+
+
+
+
+*/
+
 let rows = 100;
 let cols = 26;
 
@@ -47,6 +61,3 @@ function addListenerForAddressBarDisplay(cell, i, j) {
     })
 }
 
-// By default click on first cell via DOM
-let firstCell = document.querySelector(".cell");
-firstCell.click();

@@ -1,15 +1,18 @@
 // cycle validation has 3 steps --> storage, relationship, implementation
 // Storage will be 2d array --> where each cell contains a empty array because one cell can have more than 1 dependency
-let graphComponentStorage =[];
-for (let i = 0; i < rows; i++) {
-    let rowArr =[]
-    for (let j = 0; j < cols; j++) {
-      rowArr.push([]);
-    }
-    graphComponentStorage.push(rowArr);
-}
+// let graphComponentStorage =[];
+let allGraphComponentFolder =[];
+// for (let i = 0; i < rows; i++) {
+//     let rowArr =[]
+//     for (let j = 0; j < cols; j++) {
+//       rowArr.push([]);
+//     }
+//     graphComponentStorage.push(rowArr);
+// }
 
 // relationship will be parent child. In array we will store [rid, cid] for all the child 
+// A1 -> 2*B1 so in B1 graph component cell A1 will be stored in form of [0,0] which is rid and cid
+
 
 function addChildToGraphComponent(  inputFormula,address){
     let [chrid, chcid] = decodeRIDCIDFromAddress(address);

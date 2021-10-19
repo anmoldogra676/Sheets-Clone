@@ -77,10 +77,11 @@
         <input type="text" class="formula-bar">
     </div>
     <div class="grid-cont">
-        <div class="top-left-dummy-box"></div>
-        <div class="address-col-cont"></div>
-        <div class="cells-cont">
-            <div class="address-row-cont"></div>
+        <div class="top-left-dummy-box"></div> <!-- small left side box   -->
+        
+        <div class="address-col-cont"></div> <!-- 1 to 100 part -->
+        <div class="cells-cont"> <!--  combine of grid and A to Z -->
+            <div class="address-row-cont"></div> <!-- A to Z and remaining part of grid -->
         </div>
     </div>
     <div class="sheet-actions-cont">
@@ -90,14 +91,15 @@
             </span>
         </div>
         <div class="sheets-folder-cont">
-            <div class="sheet-folder">Sheet1</div>
         </div>
     </div>
 
     <script src="./grid.js"></script>
-    <script src="./cell-properties.js"></script>
     <script src="./cycle-validation.js"></script>
+    <script src="./sheet-handling.js"></script>
+    <script src="./cell-properties.js"></script>
     <script src="./formula.js"></script>
+    
     
 </body>
 
