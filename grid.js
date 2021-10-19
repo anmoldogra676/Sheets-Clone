@@ -26,19 +26,20 @@ for (let i = 0;i < rows;i++) {
     for (let j = 0;j < cols;j++) {
         let cell = document.createElement("div");
         cell.setAttribute("class", "cell");
-        cell.setAttribute("spellcheck", "false");
-        //  just for unique identification of cell and for storage purpose
-        cell.setAttribute('rid', i);
-        cell.setAttribute('cid', j);
-        
         cell.setAttribute("contenteditable", "true");
+        cell.setAttribute("spellcheck", "false");
+
+        // Attributes for cell and storage identification
+        cell.setAttribute("rid", i);
+        cell.setAttribute("cid", j);
+
         rowCont.appendChild(cell);
         addListenerForAddressBarDisplay(cell, i, j);
     }
     cellsCont.appendChild(rowCont);
 }
 
-function addListenerForAddressBarDisplay(cell, i, j) { 
+function addListenerForAddressBarDisplay(cell, i, j) {
     cell.addEventListener("click", (e) => {
         let rowID = i+1;
         let colID = String.fromCharCode(65 + j);
@@ -46,5 +47,6 @@ function addListenerForAddressBarDisplay(cell, i, j) {
     })
 }
 
-let firstCell = document.querySelector(".cell")
+// By default click on first cell via DOM
+let firstCell = document.querySelector(".cell");
 firstCell.click();
