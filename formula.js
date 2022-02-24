@@ -1,3 +1,4 @@
+// if user itself change the cell value then all relationships need to be removed
 for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
         let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
@@ -6,7 +7,7 @@ for (let i = 0; i < rows; i++) {
             let [activeCell, cellProp] = getCellAndCellProp(address);
             let enteredData = activeCell.innerText;
 
-            if (enteredData === cellProp.value) return;
+            if (enteredData == cellProp.value) return;
 
             cellProp.value = enteredData;
             // If data modifies remove P-C relation, formula empty, update children with new hardcoded (modified) value
@@ -18,44 +19,77 @@ for (let i = 0; i < rows; i++) {
 }
 
 let formulaBar = document.querySelector(".formula-bar");
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async (e) => {
     let inputFormula = formulaBar.value;
     if (e.key === "Enter" && inputFormula) {
-        
+
 
         // If change in formula, break old P-C relation, evaluate new formula, add new P-C relation
         let address = addressBar.value;
         let [cell, cellProp] = getCellAndCellProp(address);
         if (inputFormula !== cellProp.formula) removeChildFromParent(cellProp.formula);
+
         addChildToGraphComponent(inputFormula, address);
         // Check formula is cyclic or not, then only evaluate
         // True -> cycle, False -> Not cyclic
         // console.log(graphComponentMatrix);
-        let isCyclic = isGraphCyclic(graphComponentStorage);
-        if (isCyclic === true) {
-            alert(" Your Formula is cyclic in nature ");
+        let cycleResponse = isGraphCylic(graphComponentMatrix);
+        if (cycleResponse) {
+            // alert("Your formula is cyclic");
+            let response = confirm("Your formula is cyclic. Do you want to Remove the formula");
+            while (response ===  false) {
+
+                response = confirm("Your formula is cyclic. Do you want to Remove the formula");
+            }
+
             removeChildFromGraphComponent(inputFormula, address);
             return;
         }
-
-
 
         let evaluatedValue = evaluateFormula(inputFormula);
 
         // To update UI and cellProp in DB
         setCellUIAndCellProp(evaluatedValue, inputFormula, address);
         addChildToParent(inputFormula);
-        console.log(sheetDB);
 
         updateChildrenCells(address);
     }
 })
 
+function addChildToGraphComponent(formula, childAddress) {
+    let [crid, ccid] = decodeRIDCIDFromAddress(childAddress);
+    let encodedFormula = formula.split(" ");
+    for (let i = 0; i < encodedFormula.length; i++) {
+        let asciiValue = encodedFormula[i].charCodeAt(0);
+        if (asciiValue >= 65 && asciiValue <= 90) {
+            let [prid, pcid] = decodeRIDCIDFromAddress(encodedFormula[i]);
+            // B1: A1 + 10
+            // rid -> i, cid -> j
+            graphComponentMatrix[prid][pcid].push([crid, ccid]);
+        }
+    }
+}
+
+function removeChildFromGraphComponent(formula, childAddress) {
+    let [crid, ccid] = decodeRIDCIDFromAddress(childAddress);
+    let encodedFormula = formula.split(" ");
+
+    for (let i = 0; i < encodedFormula.length; i++) {
+        let asciiValue = encodedFormula[i].charCodeAt(0);
+        if (asciiValue >= 65 && asciiValue <= 90) {
+            let [prid, pcid] = decodeRIDCIDFromAddress(encodedFormula[i]);
+            graphComponentMatrix[prid][pcid].pop();
+        }
+    }
+}
+
+// recursive fxn 
+// bcoz the value is changed so all children of its need to be changed
 function updateChildrenCells(parentAddress) {
     let [parentCell, parentCellProp] = getCellAndCellProp(parentAddress);
     let children = parentCellProp.children;
 
-    for (let i = 0;i < children.length;i++) {
+    for (let i = 0; i < children.length; i++) {
         let childAddress = children[i];
         let [childCell, childCellProp] = getCellAndCellProp(childAddress);
         let childFormula = childCellProp.formula;
@@ -66,10 +100,11 @@ function updateChildrenCells(parentAddress) {
     }
 }
 
+// depencdency
 function addChildToParent(formula) {
     let childAddress = addressBar.value;
     let encodedFormula = formula.split(" ");
-    for (let i = 0;i < encodedFormula.length;i++) {
+    for (let i = 0; i < encodedFormula.length; i++) {
         let asciiValue = encodedFormula[i].charCodeAt(0);
         if (asciiValue >= 65 && asciiValue <= 90) {
             let [parentCell, parentCellProp] = getCellAndCellProp(encodedFormula[i]);
@@ -77,11 +112,11 @@ function addChildToParent(formula) {
         }
     }
 }
-
+ // remove dependency --> if formula is being changed or we enter a manual value
 function removeChildFromParent(formula) {
     let childAddress = addressBar.value;
     let encodedFormula = formula.split(" ");
-    for (let i = 0;i < encodedFormula.length;i++) {
+    for (let i = 0; i < encodedFormula.length; i++) {
         let asciiValue = encodedFormula[i].charCodeAt(0);
         if (asciiValue >= 65 && asciiValue <= 90) {
             let [parentCell, parentCellProp] = getCellAndCellProp(encodedFormula[i]);
@@ -93,7 +128,7 @@ function removeChildFromParent(formula) {
 
 function evaluateFormula(formula) {
     let encodedFormula = formula.split(" ");
-    for (let i = 0;i < encodedFormula.length;i++) {
+    for (let i = 0; i < encodedFormula.length; i++) {
         let asciiValue = encodedFormula[i].charCodeAt(0);
         if (asciiValue >= 65 && asciiValue <= 90) {
             let [cell, cellProp] = getCellAndCellProp(encodedFormula[i]);
@@ -101,12 +136,12 @@ function evaluateFormula(formula) {
         }
     }
     let decodedFormula = encodedFormula.join(" ");
-    return eval(decodedFormula);
+    return eval(decodedFormula); // eval we can do it with a stack 
 }
 
 function setCellUIAndCellProp(evaluatedValue, formula, address) {
     let [cell, cellProp] = getCellAndCellProp(address);
-    
+
     //UI update
     cell.innerText = evaluatedValue;
     // DB update

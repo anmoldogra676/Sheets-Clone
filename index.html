@@ -13,19 +13,19 @@
 <body>
     <div class="page-actions-cont">
         <div class="page-action">Home</div>
-        <div class="page-action">File</div>
+        <div class="page-action selected-page-action">File</div>
         <div class="page-action">Insert</div>
         <div class="page-action">Layout</div>
         <div class="page-action">Help</div>
     </div>
     <div class="cellprop-actions-cont">
-        <span class="material-icons">
+        <span class="material-icons copy">
             content_copy
         </span>
-        <span class="material-icons">
+        <span class="material-icons cut">
             content_cut
         </span>
-        <span class="material-icons">
+        <span class="material-icons paste">
             content_paste
         </span>
         <select class="font-family-prop">
@@ -70,6 +70,12 @@
             </span>
             <input type="color" class="BGcolor-prop">
         </div>
+        <span class="material-icons download">
+            cloud_download
+        </span>
+        <span class="material-icons open">
+            cloud_upload
+        </span>
     </div>
     <div class="formula-actions-cont">
         <input type="text" readonly class="address-bar">
@@ -77,11 +83,10 @@
         <input type="text" class="formula-bar">
     </div>
     <div class="grid-cont">
-        <div class="top-left-dummy-box"></div> <!-- small left side box   -->
-        
-        <div class="address-col-cont"></div> <!-- 1 to 100 part -->
-        <div class="cells-cont"> <!--  combine of grid and A to Z -->
-            <div class="address-row-cont"></div> <!-- A to Z and remaining part of grid -->
+        <div class="top-left-dummy-box"></div>
+        <div class="address-col-cont"></div>
+        <div class="cells-cont">
+            <div class="address-row-cont"></div>
         </div>
     </div>
     <div class="sheet-actions-cont">
@@ -95,12 +100,12 @@
     </div>
 
     <script src="./grid.js"></script>
-    <script src="./cycle-validation.js"></script>
-    <script src="./sheet-handling.js"></script>
+    <script src="./cycleValidation.js"></script>
+    <script src="./sheetsHandling.js"></script>
     <script src="./cell-properties.js"></script>
     <script src="./formula.js"></script>
-    
-    
+    <script src="./cutCopyPaste.js"></script>
+    <script src="./openSave.js"></script>
 </body>
 
 </html>

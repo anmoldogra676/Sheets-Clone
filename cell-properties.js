@@ -1,10 +1,34 @@
-let allSheetDBFolder =[];
+// Storage
+let collectedSheetDB = [];  //Contains all SheetDB
+let sheetDB = [];
 
-let sheetDB =[]
 {
-    let addbtn = document.querySelector(".sheet-add-icon");
-    addbtn.click();
+    let addSheetBtn = document.querySelector(".sheet-add-icon");
+    addSheetBtn.click();
 }
+
+// for (let i = 0; i < rows; i++) {
+//     let sheetRow = [];
+//     for (let j = 0; j < cols; j++) {
+//         let cellProp = {
+//             bold: false,
+//             italic: false,
+//             underline: false,
+//             alignment: "left",
+//             fontFamily: "monospace",
+//             fontSize: "14",
+//             fontColor: "#000000",
+//             BGcolor: "#000000",  // Just for indication purpose,
+//             value: "",
+//             formula: "",
+//             children: [],
+//         }
+//         sheetRow.push(cellProp);
+//     }
+//     sheetDB.push(sheetRow);
+// }
+
+
 // Selectors for cell properties
 let bold = document.querySelector(".bold");
 let italic = document.querySelector(".italic");
@@ -123,7 +147,6 @@ function addListenerToAttachCellProperties(cell) {
     // Work
     cell.addEventListener("click", (e) => {
         let address = addressBar.value;
-       
         let [rid, cid] = decodeRIDCIDFromAddress(address);
         let cellProp = sheetDB[rid][cid];
 
@@ -136,9 +159,7 @@ function addListenerToAttachCellProperties(cell) {
         cell.style.color = cellProp.fontColor;
         cell.style.backgroundColor = cellProp.BGcolor === "#000000" ? "transparent" : cellProp.BGcolor;
         cell.style.textAlign = cellProp.alignment;
-
-        console.log(cellProp.fontFamily, cellProp.fontSize);
-        
+                
 
         // Apply properties UI Props container
         bold.style.backgroundColor = cellProp.bold ? activeColorProp : inactiveColorProp;
@@ -168,7 +189,7 @@ function addListenerToAttachCellProperties(cell) {
 
         let formulaBar = document.querySelector(".formula-bar");
         formulaBar.value = cellProp.formula;
-        cell.innerText= cellProp.value;
+        cell.innerText = cellProp.value;
     })
 }
 
